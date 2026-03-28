@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-npm install -g .
+npm install -g claude-code-provider-switcher
 ```
 
 或不安装直接运行：
