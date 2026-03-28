@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-npm install -g @quanquan/ccs
+npm install -g @luoquanquan/ccs
 ```
 
 ## 快速开始
