@@ -8,12 +8,6 @@
 npm install -g claude-code-provider-switcher
 ```
 
-或不安装直接运行：
-
-```bash
-node bin/ccs.js
-```
-
 ## 快速开始
 
 ```bash
