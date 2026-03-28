@@ -12,7 +12,7 @@ fi
 echo "▶ 运行测试..."
 npm test
 
-echo "▶ 更新版本号（$BUMP）..."
+echo "▶ 更新版本号 ($BUMP)..."
 npm version "$BUMP" --message "chore: release v%s"
 
 echo "▶ 推送到 git..."
