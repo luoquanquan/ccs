@@ -1,5 +1,5 @@
 {
-  "name": "claude-code-provider-switcher",
+  "name": "@luoquanquan/ccs",
   "version": "0.0.4",
   "type": "module",
   "bin": {
