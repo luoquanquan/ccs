@@ -78,6 +78,9 @@ test("ccs list prints a table with headers when providers exist", async () => {
 
 test.skip("ccs add requires an interactive TTY, so add flow is intentionally skipped in execFile integration tests", async () => {
   // Skipped because inquirer prompts need a TTY; these integration tests use child_process.execFile.
+  // add (non-preset) flow: name → description → ANTHROPIC_BASE_URL (required) → ANTHROPIC_AUTH_TOKEN (required)
+  //   → optional custom KEY=VALUE pairs (empty line to finish)
+  // add --preset <name> flow: validates preset exists and is not duplicate, then prompts for API token only.
 });
 
 test("ccs with no args prints usage hint and exits 0 when stdin is not a TTY", async () => {

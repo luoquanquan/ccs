@@ -80,15 +80,20 @@ ccs add --preset deepseek
 
 ```bash
 ccs add
-# 依次提示：名称、描述，然后逐行输入 KEY=VALUE
-# 空行结束输入
+# 依次提示：名称、描述
+# 然后必填：ANTHROPIC_BASE_URL、ANTHROPIC_AUTH_TOKEN
+# 最后可选：自定义 KEY=VALUE（直接回车跳过）
 ```
 
-示例环境变量：
+示例：
 
 ```
-ANTHROPIC_BASE_URL=https://your-proxy.example.com
-ANTHROPIC_AUTH_TOKEN=sk-your-token
+名称：my-proxy
+描述：我的中转服务
+ANTHROPIC_BASE_URL：https://your-proxy.example.com
+ANTHROPIC_AUTH_TOKEN：sk-your-token
+以下为自定义环境变量（可选），直接回车跳过
+KEY=VALUE（留空结束）：
 ```
 
 ## 导出与导入

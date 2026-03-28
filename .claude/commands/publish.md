@@ -4,7 +4,7 @@ Steps:
 1. Run the full test suite — abort if any test fails
 2. Bump the version in `package.json` using `npm version`
 3. Commit and tag via git, then push branch + tags
-4. Publish to npm (temporarily remove `private: true`, then restore it)
+4. Publish to npm
 
 ```bash
 bash scripts/publish.sh ${ARGUMENTS:-patch}

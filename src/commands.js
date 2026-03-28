@@ -144,7 +144,25 @@ export async function addCommand(preset) {
     envVars = { ...partial.envVars, ANTHROPIC_AUTH_TOKEN: token };
   } else {
     ({ name, description } = await promptNameAndDescription(providers));
-    envVars = await promptEnvVars();
+    const { baseUrl, token } = await inquirer.prompt([
+      {
+        type: "input",
+        name: "baseUrl",
+        message: "请输入 ANTHROPIC_BASE_URL：",
+        validate: (input) => input.trim() ? true : "不能为空",
+        filter: (input) => input.trim(),
+      },
+      {
+        type: "input",
+        name: "token",
+        message: "请输入 ANTHROPIC_AUTH_TOKEN：",
+        validate: (input) => input.trim() ? true : "不能为空",
+        filter: (input) => input.trim(),
+      },
+    ]);
+    console.log(chalk.gray("以下为自定义环境变量（可选），直接回车跳过"));
+    const extraEnvVars = await promptEnvVars();
+    envVars = { ANTHROPIC_BASE_URL: baseUrl, ANTHROPIC_AUTH_TOKEN: token, ...extraEnvVars };
   }
 
   config.providers = [

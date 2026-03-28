@@ -95,7 +95,9 @@
 
 1. 输入名称（必填，唯一）
 2. 输入描述（可选）
-3. 循环添加 env var：输入 `KEY=VALUE`，回车继续，空回车结束
+3. 输入 `ANTHROPIC_BASE_URL`（必填）
+4. 输入 `ANTHROPIC_AUTH_TOKEN`（必填）
+5. 循环添加自定义 env var：输入 `KEY=VALUE`，回车继续，空回车结束（提示：可选，直接回车跳过）
 
 ### `use` 切换流程
 
