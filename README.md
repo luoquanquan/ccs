@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-npm install -g claude-code-provider-switcher
+npm install -g @quanquan/ccs
 ```
 
 ## 快速开始
