@@ -133,8 +133,9 @@ npm test
 # 只运行匹配名称的测试
 node --test --test-name-pattern "ccs use" test/**/*.test.js
 
-# 发布新版本（自动测试 → 更新版本号 → git tag + push → npm publish）
-npm run publish          # 默认 patch
-npm run publish minor
-npm run publish 1.2.3
+# 发布新版本
+本项目使用 `semantic-release` 自动管理版本发布。只需遵循 [Conventional Commits](https://www.conventionalcommits.org/) 规范提交代码并推送到 `main` 分支，GitHub Actions 会自动进行测试、更新版本号、生成 CHANGELOG 并发布到 npm。
+
+**CI 部署环境准备**：
+- 需要在 GitHub 仓库设置中配置 `NPM_TOKEN` Secret，用于授权 npm 发布权限。
 ```

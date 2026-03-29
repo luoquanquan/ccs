@@ -5,11 +5,14 @@
   "bin": {
     "ccs": "./bin/ccs.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luoquanquan/ccs.git"
+  },
   "scripts": {
     "start": "node ./bin/ccs.js",
     "test": "node --test test/**/*.test.js",
-    "test:watch": "node --test --watch test/**/*.test.js",
-    "publish": "bash scripts/publish.sh"
+    "test:watch": "node --test --watch test/**/*.test.js"
   },
   "dependencies": {
     "chalk": "^5.3.0",
@@ -17,5 +20,12 @@
     "inquirer": "^12.0.0",
     "table": "^6.9.0",
     "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.6",
+    "@semantic-release/npm": "^13.1.5",
+    "semantic-release": "^25.0.3"
   }
 }
