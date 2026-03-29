@@ -307,36 +307,48 @@ export async function proxyCommand(url) {
   const currentProxy = anthropic.envVars?.HTTP_PROXY || "";
   let nextUrl = url;
 
-  if (!nextUrl) {
-    console.log(`当前代理：${currentProxy || "（未设置）"}`);
+  if (nextUrl === undefined) {
+    console.log(`当前代理：${currentProxy || "（未启用）"}`);
     const { inputUrl } = await inquirer.prompt([
       {
         type: "input",
         name: "inputUrl",
-        message: "请输入新代理地址",
+        message: "请输入新代理地址（留空禁用代理）",
         default: currentProxy,
         filter: (input) => input.trim(),
       },
     ]);
     nextUrl = inputUrl;
-    if (!nextUrl || nextUrl === currentProxy) {
+    if (nextUrl === currentProxy) {
       console.log("未作修改");
       return;
     }
   }
 
-  anthropic.envVars = { ...(anthropic.envVars ?? {}), HTTP_PROXY: nextUrl, HTTPS_PROXY: nextUrl };
+  if (nextUrl) {
+    anthropic.envVars = { ...(anthropic.envVars ?? {}), HTTP_PROXY: nextUrl, HTTPS_PROXY: nextUrl };
+  } else {
+    const { HTTP_PROXY: _h, HTTPS_PROXY: _s, ...rest } = anthropic.envVars ?? {};
+    anthropic.envVars = rest;
+  }
   await saveConfig(config);
 
   if (config.current === anthropic.id) {
     const rcPath = detectShellRcPath();
-    await updateShellRc(rcPath, { HTTP_PROXY: nextUrl, HTTPS_PROXY: nextUrl });
-    console.log(chalk.green(`✓ 代理已更新为 ${nextUrl}`));
-    console.log(`  请执行：source ${rcPath} 使代理立即生效`);
+    if (nextUrl) {
+      await updateShellRc(rcPath, { HTTP_PROXY: nextUrl, HTTPS_PROXY: nextUrl });
+      console.log(chalk.green(`✓ 代理已更新为 ${nextUrl}`));
+    } else {
+      let rcContent = "";
+      try { rcContent = await fs.readFile(rcPath, "utf8"); } catch (err) { if (err?.code !== "ENOENT") throw err; }
+      if (hasMarkerBlock(rcContent)) await updateShellRc(rcPath, {}, extractMarkerKeys(rcContent));
+      console.log(chalk.green("✓ 代理已禁用"));
+    }
+    console.log(`  请执行：source ${rcPath} 使代理设置立即生效`);
     return;
   }
 
-  console.log(chalk.green(`✓ 代理已更新为 ${nextUrl}（切换到 anthropic 后生效）`));
+  console.log(chalk.green(nextUrl ? `✓ 代理已更新为 ${nextUrl}（切换到 anthropic 后生效）` : "✓ 代理已禁用（切换到 anthropic 后生效）"));
 }
 
 export async function exportCommand(filePath) {

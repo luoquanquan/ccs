@@ -2,6 +2,9 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { v4 as uuid } from "uuid";
+import inquirer from "inquirer";
+
+const DEFAULT_PROXY = "http://127.0.0.1:7890";
 
 const home = os.homedir();
 const ccsDataDir = path.join(home, ".claude", "ccs-data");
@@ -52,7 +55,23 @@ export async function ensureConfig() {
   }
 
   {
+    let proxyUrl = DEFAULT_PROXY;
+    if (process.stdin.isTTY) {
+      const { enableProxy } = await inquirer.prompt([
+        { type: "confirm", name: "enableProxy", message: `是否启用代理？（默认：${DEFAULT_PROXY}）`, default: true },
+      ]);
+      if (enableProxy) {
+        const { inputUrl } = await inquirer.prompt([
+          { type: "input", name: "inputUrl", message: "请输入代理地址", default: DEFAULT_PROXY, filter: (s) => s.trim() },
+        ]);
+        proxyUrl = inputUrl || DEFAULT_PROXY;
+      } else {
+        proxyUrl = null;
+      }
+    }
+
     const builtinId = uuid();
+    const envVars = proxyUrl ? { HTTP_PROXY: proxyUrl, HTTPS_PROXY: proxyUrl } : {};
     const config = {
       current: builtinId,
       providers: [
@@ -61,10 +80,7 @@ export async function ensureConfig() {
           name: "anthropic",
           description: "官方 Anthropic（默认）",
           isBuiltin: true,
-          envVars: {
-            HTTP_PROXY: "http://127.0.0.1:7890",
-            HTTPS_PROXY: "http://127.0.0.1:7890",
-          },
+          envVars,
           lastUsedAt: null,
         },
       ],

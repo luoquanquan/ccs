@@ -37,10 +37,12 @@ ccs use kimi
 | `ccs edit [名称]` | `e` | 编辑服务商配置 |
 | `ccs remove [名称]` | `rm` | 删除服务商 |
 | `ccs current` | `c` | 显示当前激活的服务商详情 |
-| `ccs proxy [地址]` | `p` | 查看或设置 Anthropic 服务商的代理地址 |
+| `ccs proxy [地址]` | `p` | 查看或设置 Anthropic 服务商的代理地址（留空可禁用代理） |
 | `ccs export [文件]` | — | 导出服务商配置（不指定文件则输出到 stdout） |
 | `ccs import <文件>` | — | 从 JSON 文件导入服务商配置 |
 | `ccs completion` | — | 输出 shell 补全脚本 |
+
+> **关于默认代理**：工具在初始化内置 Anthropic 服务商时会默认提示配置代理（`http://127.0.0.1:7890`）。官方配置指定 proxy 主要是为了避免网络问题（如频繁的 IP 变动或由于网络不稳定导致的异常请求）触发 Anthropic 的安全策略和封号风险。用户可根据实际网络环境选择启用、修改或禁用。
 
 ## 预设服务商
 
@@ -68,7 +70,7 @@ ccs add --preset deepseek
 3. 更新 shell rc 文件中 `# CCS_START` / `# CCS_END` 标记块内的代理变量
 4. 更新 `~/.claude/ccs-data/config.json` 中的 `current` 和 `lastUsedAt`
 
-**代理变量**（`HTTP_PROXY`、`HTTPS_PROXY`）写入 shell rc 文件，需执行 `source <rc文件>` 立即生效。**其他变量**（如 `ANTHROPIC_BASE_URL`、`ANTHROPIC_AUTH_TOKEN`）在重启 Claude Code 后生效。
+**代理变量**（`HTTP_PROXY`、`HTTPS_PROXY`）写入 shell rc 文件，需执行 `source <rc文件>` 立即生效。禁用代理时会自动从 shell rc 文件中移除这些变量。**其他变量**（如 `ANTHROPIC_BASE_URL`、`ANTHROPIC_AUTH_TOKEN`）在重启 Claude Code 后生效。
 
 ## 添加自定义服务商
 
