@@ -126,6 +126,8 @@ ccs import providers.json
 
 ## 开发
 
+查看版本更新历史：[CHANGELOG.md](./CHANGELOG.md)
+
 ```bash
 # 运行所有测试
 npm test
